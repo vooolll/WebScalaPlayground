@@ -5,51 +5,36 @@ import java.util.NoSuchElementException
 import akka.actor.ActorSystem
 import akka.pattern._
 import akka.testkit._
-import configs.{AppConfig, News}
 import controllers.Articles
-import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
-import org.scalatestplus.play.PlaySpec
-import play.api.libs.json.Json
-import play.api.libs.ws._
+import org.scalatest.mockito.MockitoSugar
+import org.scalatest._
 import play.api.test.Helpers._
+import repos.NewsRepo
 
-import scala.language.reflectiveCalls
 import scala.concurrent.Future
+import scala.language.reflectiveCalls
 
-class NewsActorSpec extends PlaySpec with MockitoSugar {
-
-  //TODO use scalatest pool instead
-  import scala.concurrent.ExecutionContext.Implicits._
-  import actors.ArticleJsonParser._
-
+//TODO refactor to BaseActorSpec
+class NewsActorSpec extends AsyncWordSpec with MustMatchers with OptionValues with MockitoSugar {
+  //todo refactor to use actor-test code instead of this
   implicit val actorSystem = ActorSystem("testing_actor_system")
 
-  val wsClient = mock[WSClient]
-  val wsResponse = mock[WSResponse]
-  val wSRequest = mock[WSRequest]
-  val appConfig = mock[AppConfig]
-
   def articleFixture = new {
-    val article = Article("test article", "http://localhost:9000",
-      "http://localhost:9000/image", "Valeryi", "10.1.1993", "some description")
+    val articles = Articles(Seq(Article("test article", "http://localhost:9000",
+      "http://localhost:9000/image", "Valeryi", "10.1.1993", "some description")))
   }
 
-  when(appConfig.newsApiKey).thenReturn("test_news_key")
+  val repo = mock[NewsRepo]
 
-  val query = Seq("source" -> News.SOURCE, "apiKey" -> appConfig.newsApiKey)
-  when(wsResponse.body).thenReturn(Json.toJson(Articles(Seq(articleFixture.article))).toString)
-  when(wSRequest.withQueryString(query:_*)).thenReturn(wSRequest)
-  when(wSRequest.get()).thenReturn(Future.successful(wsResponse))
-  when(wsClient.url(News.ARTICLES)).thenReturn(wSRequest)
+  when(repo.getArticles()).thenReturn(Future.successful(articleFixture.articles))
 
-  val actorRef = TestActorRef(new NewsActor(wsClient, appConfig))
+  val actorRef = TestActorRef(new NewsActor(repo))
 
-  s"news actor" must {
+  s"NewsActor#ack(RequestNews)" must {
     "return sequence of articles" in {
       val futureArticles = (actorRef ? RequestNews).mapTo[Articles]
-      val (article::Nil) = await(futureArticles).articles
-      article mustBe articleFixture.article
+      futureArticles.map(articles => articles mustBe articleFixture.articles)
     }
 
     "return failed future with IllegalArgumentException on unknown message" in {

@@ -5,27 +5,17 @@ import akka.actor._
 import akka.event._
 import akka.pattern._
 import com.google.inject._
-import configs._
-import controllers.Articles
 import play.api.Logger
-import play.api.libs.json._
-import play.api.libs.ws._
+import repos.NewsRepo
 
 import scala.concurrent._
 
-class NewsActor @Inject()(wsClient: WSClient, appConfig: AppConfig)
+class NewsActor @Inject()(newsRepo: NewsRepo)
                          (implicit ec: ExecutionContext) extends Actor {
-
-  import ArticleJsonParser._
 
   override def receive = LoggingReceive {
     case RequestNews =>
-      val futureArticles = wsClient.url(News.ARTICLES)
-        .withQueryString("source" -> News.SOURCE, "apiKey" -> appConfig.newsApiKey)
-        .get() map { response =>
-          Articles((Json.parse(response.body) \ "articles").as[Seq[Article]])
-      }
-      pipe(futureArticles).to(sender())
+      pipe(newsRepo.getArticles()).to(sender())
     case _ =>
       Logger.error("message not supported")
       sender() ! Failure(new NoSuchElementException("message not supported"))
