@@ -10,6 +10,11 @@ import repos.NewsRepo
 
 import scala.concurrent._
 
+case class Article(title: String, url: String, urlToImage: String, author: String,
+                   publishedAt: String, description: String)
+
+case object RequestNews
+
 class NewsActor @Inject()(newsRepo: NewsRepo)
                          (implicit ec: ExecutionContext) extends Actor {
 
@@ -21,10 +26,5 @@ class NewsActor @Inject()(newsRepo: NewsRepo)
       sender() ! Failure(new NoSuchElementException("message not supported"))
   }
 }
-
-case class Article(title: String, url: String, urlToImage: String, author: String,
-                   publishedAt: String, description: String)
-
-case object RequestNews
 
 

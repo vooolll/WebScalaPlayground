@@ -3,7 +3,7 @@ package http
 import org.scalatestplus.play.PlaySpec
 import play.api.libs.ws.WSResponse
 
-trait HttpSpec extends PlaySpec{
+trait HttpSpec extends PlaySpec {
   def testForStatusCode(statusCode: Int, expectedStatusCode: Int) =
     s"have status code $expectedStatusCode" in {
       statusCode mustBe expectedStatusCode

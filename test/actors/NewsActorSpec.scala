@@ -2,23 +2,18 @@ package actors
 
 import java.util.NoSuchElementException
 
-import akka.actor.ActorSystem
 import akka.pattern._
 import akka.testkit._
+import bootstrap.ActorSpec
 import controllers.Articles
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
-import org.scalatest._
 import play.api.test.Helpers._
 import repos.NewsRepo
 
 import scala.concurrent.Future
 import scala.language.reflectiveCalls
 
-//TODO refactor to BaseActorSpec
-class NewsActorSpec extends AsyncWordSpec with MustMatchers with OptionValues with MockitoSugar {
-  //todo refactor to use actor-test code instead of this
-  implicit val actorSystem = ActorSystem("testing_actor_system")
+class NewsActorSpec extends ActorSpec {
 
   def articleFixture = new {
     val articles = Articles(Seq(Article("test article", "http://localhost:9000",

@@ -21,17 +21,14 @@ class NewsApi @Inject()(@Named("news-actor") newsWorker: ActorRef)
   implicit val newsRequestTimeout = Timeout(5 seconds)
 
   def index = Action.async {
-
     val futureNews = (newsWorker ? RequestNews)(newsRequestTimeout)
-    //TODO: Write test case for this
-    futureNews.failed map (t => logException(t) match {
-      case a: AskTimeoutException => InternalServerError(jsonError("news unavailable"))
-      case t: Throwable => InternalServerError(jsonError("unknown error"))
-    })
     futureNews map {
       case Articles(articles) =>
         Ok(Json.toJson(articles)).as("application/json")
-    }
+    } recover { case t => logException(t) match {
+      case e: AskTimeoutException => InternalServerError(jsonError("news unavailable"))
+      case e: Throwable => InternalServerError(jsonError("unknown error"))
+    }}
   }
 }
 

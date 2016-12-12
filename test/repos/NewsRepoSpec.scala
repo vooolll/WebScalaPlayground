@@ -1,16 +1,15 @@
 package repos
 
-import configs.{AppConfig, News}
+import bootstrap.ActorSpec
+import configs._
 import controllers.Articles
-import org.scalatest._
 import org.mockito.Mockito._
-import org.scalatest.mockito._
 import play.api.libs.json.Json
 import play.api.libs.ws._
 
 import scala.concurrent.Future
 
-class NewsRepoSpec extends AsyncWordSpec with MustMatchers with OptionValues with MockitoSugar {
+class NewsRepoSpec extends ActorSpec {
 
   import actors.ArticleJsonParser._
 
