@@ -1,7 +1,7 @@
 package configs
 
-import com.google.inject.{Inject, Singleton}
-import play.api.Configuration
+import play.api._
+import com.google.inject._
 
 @Singleton
 class AppConfig @Inject()(configuration: Configuration) {

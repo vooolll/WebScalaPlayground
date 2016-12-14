@@ -13,6 +13,7 @@ class NewsRepo @Inject()(wsClient: WSClient, appConfig: AppConfig) {
 
   import controllers.json.ArticleJsonParser._
 
+  //TODO add automatically logging of resource requests
   def getArticles()(implicit ec: ExecutionContext): Future[Articles] = {
     wsClient.url(News.ARTICLES)
       .withQueryString("source" -> News.SOURCE, "apiKey" -> appConfig.newsApiKey)
