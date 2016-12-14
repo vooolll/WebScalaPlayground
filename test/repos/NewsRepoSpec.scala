@@ -1,6 +1,6 @@
 package repos
 
-import bootstrap.ActorSpec
+import bootstrap.AsyncActorSpec
 import configs._
 import controllers.Articles
 import org.mockito.Mockito._
@@ -9,7 +9,7 @@ import play.api.libs.ws._
 
 import scala.concurrent.Future
 
-class NewsRepoSpec extends ActorSpec {
+class NewsRepoSpec extends AsyncActorSpec {
 
   import actors.ArticleJsonParser._
 

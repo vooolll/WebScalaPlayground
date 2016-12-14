@@ -6,6 +6,7 @@ import akka.pattern._
 import akka.util.Timeout
 import com.google.inject._
 import com.google.inject.name._
+import configs.AppConfig
 import play.api.libs.json._
 import helpers.LoggingHelper._
 import play.api.mvc._
@@ -14,14 +15,15 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
-class NewsApi @Inject()(@Named("news-actor") newsWorker: ActorRef)
+class NewsApi @Inject()(@Named("news-actor") newsWorker: ActorRef, appConfig: AppConfig)
                        (implicit ec: ExecutionContext) extends Controller {
 
   import ArticleJsonParser._
-  implicit val newsRequestTimeout = Timeout(5 seconds)
+
+  val timeout = Timeout(appConfig.askTimeout millis)
 
   def index = Action.async {
-    val futureNews = (newsWorker ? RequestNews)(newsRequestTimeout)
+    val futureNews = (newsWorker ? RequestNews)(timeout)
     futureNews map {
       case Articles(articles) =>
         Ok(Json.toJson(articles)).as("application/json")

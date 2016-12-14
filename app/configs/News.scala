@@ -11,6 +11,7 @@ object News {
 @Singleton
 class AppConfig @Inject()(configuration: Configuration) {
 
-  val newsApiKey = configuration.getString("news.api.key").get
+  val Some(newsApiKey) = configuration.getString("news.api.key")
+  val Some(askTimeout) = configuration.getMilliseconds("actor.ask.timeout")
 
 }

@@ -4,7 +4,7 @@ import java.util.NoSuchElementException
 
 import akka.pattern._
 import akka.testkit._
-import bootstrap.ActorSpec
+import bootstrap.AsyncActorSpec
 import controllers.Articles
 import org.mockito.Mockito._
 import play.api.test.Helpers._
@@ -13,7 +13,7 @@ import repos.NewsRepo
 import scala.concurrent.Future
 import scala.language.reflectiveCalls
 
-class NewsActorSpec extends ActorSpec {
+class NewsActorSpec extends AsyncActorSpec {
 
   def articleFixture = new {
     val articles = Articles(Seq(Article("test article", "http://localhost:9000",
