@@ -1,5 +1,6 @@
-package actors
+package controllers.json
 
+import actors.Article
 import controllers.Articles
 import play.api.libs.json.Json
 

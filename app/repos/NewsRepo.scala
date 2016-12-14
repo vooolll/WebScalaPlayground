@@ -11,7 +11,7 @@ import scala.concurrent._
 
 class NewsRepo @Inject()(wsClient: WSClient, appConfig: AppConfig) {
 
-  import actors.ArticleJsonParser._
+  import controllers.json.ArticleJsonParser._
 
   def getArticles()(implicit ec: ExecutionContext): Future[Articles] = {
     wsClient.url(News.ARTICLES)

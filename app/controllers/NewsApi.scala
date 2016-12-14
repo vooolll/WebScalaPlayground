@@ -18,7 +18,7 @@ import scala.language.postfixOps
 class NewsApi @Inject()(@Named("news-actor") newsWorker: ActorRef, appConfig: AppConfig)
                        (implicit ec: ExecutionContext) extends Controller {
 
-  import ArticleJsonParser._
+  import controllers.json.ArticleJsonParser._
 
   val timeout = Timeout(appConfig.askTimeout millis)
 
@@ -28,8 +28,8 @@ class NewsApi @Inject()(@Named("news-actor") newsWorker: ActorRef, appConfig: Ap
       case Articles(articles) =>
         Ok(Json.toJson(articles)).as("application/json")
     } recover { case t => logException(t) match {
-      case e: AskTimeoutException => InternalServerError(jsonError("news unavailable"))
-      case e: Throwable => InternalServerError(jsonError("unknown error"))
+      case e: AskTimeoutException => InternalServerError(json.error("news unavailable"))
+      case e: Throwable => InternalServerError(json.error("unknown error"))
     }}
   }
 }

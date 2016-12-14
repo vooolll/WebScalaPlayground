@@ -11,7 +11,7 @@ import scala.concurrent.Future
 
 class NewsRepoSpec extends AsyncActorSpec {
 
-  import actors.ArticleJsonParser._
+  import controllers.json.ArticleJsonParser._
 
   val wsClient = mock[WSClient]
   val wsResponse = mock[WSResponse]
