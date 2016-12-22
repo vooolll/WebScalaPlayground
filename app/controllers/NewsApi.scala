@@ -26,7 +26,7 @@ class NewsApi @Inject()(@Named("news-actor") newsWorker: ActorRef, appConfig: Ap
     futureNews map {
       case Articles(articles) =>
         Ok(Json.toJson(articles)).as("application/json")
-    } recover { case t => logException(t) match {
+    } recover { case t: Throwable => logException(t) match {
       case e: AskTimeoutException => InternalServerError(json.error("news unavailable"))
       case e: Throwable => InternalServerError(json.error("unknown error"))
     }}
