@@ -1,7 +1,5 @@
 package actors
 
-import java.util.NoSuchElementException
-
 import akka.pattern._
 import akka.testkit._
 import bootstrap.AsyncActorSpec
@@ -30,10 +28,6 @@ class NewsActorSpec extends AsyncActorSpec {
     "return sequence of articles" in {
       val futureArticles = (actorRef ? RequestNews).mapTo[Articles]
       futureArticles.map(articles => articles mustBe articleFixture.articles)
-    }
-
-    "return failed future with IllegalArgumentException on unknown message" in {
-      an[NoSuchElementException] mustBe thrownBy(await(actorRef ? ""))
     }
   }
 
