@@ -5,7 +5,7 @@ import org.joda.time.DateTime
 import scala.concurrent.Future
 
 class BookingRepo {
-  def allBookings() = Future.successful(Seq.empty[Booking])
+  def allBookings() = Future.successful(List.empty[Booking])
 }
 
 object ServiceType extends Enumeration {
@@ -14,8 +14,6 @@ object ServiceType extends Enumeration {
   val GelLacquerCoating = Value
   val LacquerCoating = Value
 }
-
-case class Master(firstName: String, lastName: String, portfolio: Option[Portfolio])
 
 case class Portfolio()
 
