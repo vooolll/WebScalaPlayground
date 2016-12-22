@@ -15,7 +15,7 @@ class NewsActor @Inject()(newsRepo: NewsRepo)
 
   override def receive = LoggingReceive {
     case RequestNews =>
-      pipe(newsRepo.getArticles()).to(sender())
+      pipe(newsRepo.articles()).to(sender())
     case _ =>
       Logger.error("message not supported")
       sender() ! Failure(new NoSuchElementException("message not supported"))

@@ -22,7 +22,7 @@ class NewsActorSpec extends AsyncActorSpec {
 
   val repo = mock[NewsRepo]
 
-  when(repo.getArticles()).thenReturn(Future.successful(articleFixture.articles))
+  when(repo.articles()).thenReturn(Future.successful(articleFixture.articles))
 
   val actorRef = TestActorRef(new NewsActor(repo))
 

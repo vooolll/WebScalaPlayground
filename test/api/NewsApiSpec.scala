@@ -39,7 +39,7 @@ class NewsApiThrowable extends ActorSpec with MockitoSugar{
   implicit val ec = ExecutionContext.Implicits.global
 
   val timeoutRepo = mock[NewsRepo]
-  when(timeoutRepo.getArticles()).thenThrow(new RuntimeException("any exception"))
+  when(timeoutRepo.articles()).thenThrow(new RuntimeException("any exception"))
 
   val actorRef = TestActorRef(new IllegalThrowingActor())
   val timeoutActorRef = TestActorRef(new NewsActor(timeoutRepo))

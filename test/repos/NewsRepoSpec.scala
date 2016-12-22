@@ -25,7 +25,7 @@ class NewsRepoSpec extends AsyncActorSpec {
 
   "NewsRepo#getArticles" must {
     "return Nil" in {
-      new NewsRepo(wsClient, appConfig).getArticles.map { case Articles(articles) =>
+      new NewsRepo(wsClient, appConfig).articles.map { case Articles(articles) =>
         articles mustBe Nil
       }
     }

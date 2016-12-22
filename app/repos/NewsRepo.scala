@@ -13,7 +13,7 @@ import scala.concurrent._
 class NewsRepo @Inject()(wsClient: WSClient, appConfig: AppConfig) {
 
   //TODO add automatically logging of resource requests
-  def getArticles()(implicit ec: ExecutionContext): Future[Articles] = {
+  def articles()(implicit ec: ExecutionContext): Future[Articles] = {
     wsClient.url(News.articles)
       .withQueryString("source" -> News.source, "apiKey" -> appConfig.newsApiKey)
       .get() map { response =>
