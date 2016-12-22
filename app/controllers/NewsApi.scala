@@ -26,5 +26,3 @@ class NewsApi @Inject()(@Named("news-actor") newsWorker: ActorRef, appConfig: Ap
     }
   }
 }
-
-case class Articles(articles: Seq[Article])
