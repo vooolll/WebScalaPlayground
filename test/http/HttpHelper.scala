@@ -19,7 +19,7 @@ object HttpHelper {
                      (implicit app: Application, wsClient: WSClient): HttpResponse =
     response(route(app, FakeRequest("GET", address).withFormUrlEncodedBody(query: _*)))
 
-  def getWithUrl(url: String): Request[AnyContentAsEmpty.type] = FakeRequest("GET", url)
+  def withUrl(url: String): Request[AnyContentAsEmpty.type] = FakeRequest("GET", url)
 
   def response(mayBeFutureResult: Option[Future[Result]]): HttpResponse =
     mayBeFutureResult match {
@@ -27,15 +27,6 @@ object HttpHelper {
         headers(futureResult), contentType(futureResult))
       case None => throw new RuntimeException("test failed")
     }
-
-  def hasProperty(source: JsValue, property: String): Boolean =
-    (source \ property).toOption.isDefined
-
-  def hasProperty[T](source: JsValue, property: String)(implicit reads: Reads[T]): Boolean =
-    (source \ property).asOpt[T].isDefined
-
-  def getProperty[T](source: JsValue, property: String)(implicit reads: Reads[T]): T =
-    (source \ property).as[T]
 }
 
 case class HttpResponse(statusCode: Int, bodyAsString: String, headers: Map[String, String],
