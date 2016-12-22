@@ -10,6 +10,7 @@ import configs.AppConfig
 import play.api.libs.json._
 import helpers.LoggingHelper._
 import play.api.mvc._
+import controllers.json.ArticleJsonParser._
 
 import scala.concurrent._
 import scala.concurrent.duration._
@@ -17,8 +18,6 @@ import scala.language.postfixOps
 
 class NewsApi @Inject()(@Named("news-actor") newsWorker: ActorRef, appConfig: AppConfig)
                        (implicit ec: ExecutionContext) extends Controller {
-
-  import controllers.json.ArticleJsonParser._
 
   val timeout = Timeout(appConfig.askTimeout millis)
 

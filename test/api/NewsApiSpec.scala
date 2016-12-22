@@ -21,10 +21,10 @@ class NewsApiSpec extends HttpSpec with BaseAppSpec {
 
   val techNewAddress = controllers.routes.NewsApi.index().url
 
-  val query = Seq("source" -> News.SOURCE, "apiKey" -> appConfig.newsApiKey)
-  val newsVendorResponse = sendRequest(News.ARTICLES, query:_*)
+  val query = Seq("source" -> News.source, "apiKey" -> appConfig.newsApiKey)
+  val newsVendorResponse = sendRequest(News.articles, query:_*)
 
-  s"${News.ARTICLES} with $query" must {
+  s"${News.articles} with $query" must {
     testResponseFor(newsVendorResponse, OK, "application/json; charset=utf-8")
   }
 
