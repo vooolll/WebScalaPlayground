@@ -3,6 +3,7 @@ package api
 import actors.NewsActor
 import akka.actor.Actor
 import akka.testkit.TestActorRef
+import akka.util.Timeout
 import bootstrap.ActorSpec
 import configs._
 import controllers.NewsApi
@@ -12,6 +13,8 @@ import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import scala.concurrent.duration._
+import scala.language.postfixOps
 import repos.NewsRepo
 
 import scala.concurrent.ExecutionContext
@@ -46,7 +49,7 @@ class NewsApiThrowable extends ActorSpec with MockitoSugar{
 
   val appConfig = mock[AppConfig]
   val testTimeoutInMillis = 10
-  when(appConfig.askTimeout).thenReturn(testTimeoutInMillis)
+  when(appConfig.askGlobalTimeout).thenReturn(Timeout(testTimeoutInMillis milliseconds))
 
   val newsApi = new NewsApi(actorRef, appConfig)
   val timeoutNewsApi = new NewsApi(timeoutActorRef, appConfig)
