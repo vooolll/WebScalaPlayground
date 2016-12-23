@@ -1,5 +1,6 @@
 package actors
 
+import actors.NewsActor.RequestNews
 import akka.pattern._
 import akka.testkit._
 import bootstrap.AsyncActorSpec

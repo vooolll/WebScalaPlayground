@@ -1,5 +1,6 @@
 package actors
 
+import actors.NewsActor.RequestNews
 import akka.actor._
 import akka.event._
 import akka.pattern._
@@ -16,3 +17,8 @@ class NewsActor @Inject()(newsRepo: NewsRepo)
       pipe(newsRepo.articles()).to(sender())
   }
 }
+
+object NewsActor {
+  case object RequestNews
+}
+
