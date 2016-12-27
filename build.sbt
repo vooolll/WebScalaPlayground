@@ -20,5 +20,7 @@ libraryDependencies ++= Seq(
 
 scalacOptions += "-feature"
 
+coverageExcludedPackages := """controllers\..*Reverse.*;router.Routes.*;"""
+
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
     
