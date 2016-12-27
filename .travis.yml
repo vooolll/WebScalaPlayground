@@ -7,6 +7,5 @@ scala:
 script:
   - sbt clean coverage test
   - sbt coverageReport
-  - sbt codacyCoverage
 env:
   - CODACY_PROJECT_TOKEN=7fa99237a864440ba66b970eabef6f2e
