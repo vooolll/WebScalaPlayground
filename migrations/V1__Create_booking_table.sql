@@ -1,4 +1,4 @@
-CREATE TABLE person (
+CREATE TABLE bookings (
     id INT NOT NULL,
     master_id INT NOT NULL,
     service_id INT NOT NULL,
